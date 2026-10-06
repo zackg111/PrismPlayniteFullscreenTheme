@@ -1,0 +1,40 @@
+{
+  "version": "1.0.0",
+  "author": "Zacharu",
+  "themeApiVersion": "2.10.0",
+  "variants": {
+    "Top": {
+      "description": "Game rail across the top, selected game details below over the artwork.",
+      "PC_RailRow": 0, "PC_HeroRow": 1,
+      "PC_RailHeight": 330,
+      "PC_RailMargin": "80,24,80,0",
+      "PC_RailVerticalAlignment": "Top",
+      "PC_HeroVerticalAlignment": "Bottom",
+      "PC_HeroMargin": "110,20,110,30",
+      "PC_HeroTitleSize": 60,
+      "PC_HeroDetailsVisibility": "Visible"
+    },
+    "Bottom": {
+      "description": "Classic console layout: artwork and game details up top, game rail along the bottom.",
+      "PC_RailRow": 2, "PC_HeroRow": 1,
+      "PC_RailHeight": 330,
+      "PC_RailMargin": "80,10,80,20",
+      "PC_RailVerticalAlignment": "Bottom",
+      "PC_HeroVerticalAlignment": "Bottom",
+      "PC_HeroMargin": "110,20,110,16",
+      "PC_HeroTitleSize": 60,
+      "PC_HeroDetailsVisibility": "Visible"
+    },
+    "Center": {
+      "description": "Big covers: one large rail through the middle of the screen, compact details underneath.",
+      "PC_RailRow": 1, "PC_HeroRow": 2,
+      "PC_RailHeight": 560,
+      "PC_RailMargin": "60,0,60,0",
+      "PC_RailVerticalAlignment": "Center",
+      "PC_HeroVerticalAlignment": "Top",
+      "PC_HeroMargin": "110,0,110,20",
+      "PC_HeroTitleSize": 44,
+      "PC_HeroDetailsVisibility": "Visible"
+    }
+  }
+}

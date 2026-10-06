@@ -1,0 +1,117 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+        System tabs. Each fullscreen filter preset is one tab. Tabs cycle through
+        seven accent colors, and if Images/Presets/<preset name>.png exists the
+        tab shows that logo instead of text (e.g. a preset named "SNES").
+    -->
+    <Style x:Key="ItemFilterQuickPreset" TargetType="CheckBoxEx">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+        <Setter Property="Tag" Value="{DynamicResource PC_Tab0Brush}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="CheckBoxEx">
+                    <Grid Margin="6,0,6,0">
+                        <Border x:Name="Pill" CornerRadius="24" Height="52" Padding="22,0,22,0"
+                                Background="Transparent" BorderThickness="2" BorderBrush="Transparent">
+                            <Grid VerticalAlignment="Center">
+                                <Image x:Name="PresetLogo" Height="36" Stretch="Uniform"
+                                       RenderOptions.BitmapScalingMode="Fant"
+                                       Source="{ThemeFileBinding Name, PathFormat='Images/Presets/{0}.png'}" />
+                                <Grid x:Name="PresetText">
+                                    <!-- invisible bold copy reserves width so tabs don't jump -->
+                                    <TextBlock Text="{Binding Name}" FontSize="24" Visibility="Hidden"
+                                               FontFamily="{DynamicResource FontTitilliumWebBold}" />
+                                    <TextBlock x:Name="TextContent" Text="{Binding Name}" FontSize="24"
+                                               HorizontalAlignment="Center"
+                                               FontFamily="{DynamicResource FontTitilliumWeb}"
+                                               Foreground="{TemplateBinding Foreground}" />
+                                </Grid>
+                            </Grid>
+                        </Border>
+                        <Border x:Name="Underline" Height="4" CornerRadius="2" Width="28"
+                                VerticalAlignment="Bottom" Margin="0,0,0,-8"
+                                Background="{Binding Tag, RelativeSource={RelativeSource TemplatedParent}}"
+                                Visibility="Hidden" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger SourceName="PresetLogo" Property="Source" Value="{x:Null}">
+                            <Setter TargetName="PresetLogo" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition SourceName="PresetLogo" Property="Visibility" Value="Visible" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="PresetText" Property="Visibility" Value="Collapsed" />
+                        </MultiTrigger>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="Pill" Property="Background" Value="{Binding Tag, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Setter TargetName="TextContent" Property="Foreground" Value="#FF07081A" />
+                            <Setter TargetName="TextContent" Property="FontFamily" Value="{DynamicResource FontTitilliumWebBold}" />
+                        </Trigger>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="Pill" Property="BorderBrush" Value="{Binding Tag, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Setter TargetName="Underline" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="ItemsControl.AlternationIndex" Value="1">
+                <Setter Property="Tag" Value="{DynamicResource PC_Tab1Brush}" />
+            </Trigger>
+            <Trigger Property="ItemsControl.AlternationIndex" Value="2">
+                <Setter Property="Tag" Value="{DynamicResource PC_Tab2Brush}" />
+            </Trigger>
+            <Trigger Property="ItemsControl.AlternationIndex" Value="3">
+                <Setter Property="Tag" Value="{DynamicResource PC_Tab3Brush}" />
+            </Trigger>
+            <Trigger Property="ItemsControl.AlternationIndex" Value="4">
+                <Setter Property="Tag" Value="{DynamicResource PC_Tab4Brush}" />
+            </Trigger>
+            <Trigger Property="ItemsControl.AlternationIndex" Value="5">
+                <Setter Property="Tag" Value="{DynamicResource PC_Tab5Brush}" />
+            </Trigger>
+            <Trigger Property="ItemsControl.AlternationIndex" Value="6">
+                <Setter Property="Tag" Value="{DynamicResource PC_Tab6Brush}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="{x:Type FilterPresetSelector}">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type FilterPresetSelector}">
+                    <ItemsControlEx x:Name="PART_ItemsFilterPresets" Focusable="False"
+                                    KeyboardNavigation.DirectionalNavigation="Once"
+                                    AlternationCount="7"
+                                    HorizontalLayout="True">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.Template>
+                            <ControlTemplate>
+                                <ScrollViewer Focusable="False"
+                                              HorizontalScrollBarVisibility="Hidden"
+                                              VerticalScrollBarVisibility="Disabled"
+                                              CanContentScroll="True"
+                                              Padding="0,0,0,10">
+                                    <ItemsPresenter />
+                                </ScrollViewer>
+                            </ControlTemplate>
+                        </ItemsControl.Template>
+                    </ItemsControlEx>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
