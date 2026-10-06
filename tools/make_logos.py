@@ -1,14 +1,16 @@
 #!/usr/bin/env python3
-"""Generate the colorful platform logo badges for Prism Console.
+"""Write the platform logos for Prism Console.
 
 Writes, under <out>/Images:
   Platforms/<specification id>.png   used by game tiles, hero and details
   Presets/<short label>.png          used by system tabs (filter preset named "SNES")
   Presets/<platform name>.png        same, for presets named "Nintendo SNES"
+  Presets/<alias>.png                same, for common nicknames ("Mega Drive", "PSX")
 
-These are original badge designs (gradient tile + wordmark text), not the
-manufacturers' trademarked logos. Drop your own PNGs with the same file names
-into the theme folder to replace any of them.
+Real console logos come from src/logos/<specification id>.png (imported from
+the Batocera Carbon theme by tools/import_logos.py). Platforms with no logo
+there get a generated gradient badge instead. Drop your own PNGs with the
+same file names into the theme folder to replace any of them.
 
 Usage: python3 make_logos.py <theme dir>
 """
@@ -274,20 +276,28 @@ def safe(name):
 def main(theme_dir):
     pdir = os.path.join(theme_dir, "Images", "Platforms")
     sdir = os.path.join(theme_dir, "Images", "Presets")
+    logo_src = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "src", "logos")
     os.makedirs(pdir, exist_ok=True)
     os.makedirs(sdir, exist_ok=True)
-    count = 0
+    real, badges = 0, []
     for pid, (label, maker, stops) in PLATFORMS.items():
-        img = badge(label, maker, stops)
+        src = os.path.join(logo_src, pid + ".png")
+        if os.path.exists(src):
+            img = Image.open(src).convert("RGBA")
+            real += 1
+        else:
+            img = badge(label, maker, stops)
+            badges.append(pid)
         img.save(os.path.join(pdir, pid + ".png"), optimize=True)
-        small = img.resize((W // 2, H // 2), Image.LANCZOS)
+        small = img.resize((max(1, img.width * 100 // img.height), 100), Image.LANCZOS)
         names = {label, NAMES.get(pid, "")} | set(ALIASES.get(pid, []))
         for n in names:
             n = safe(n)
             if n:
                 small.save(os.path.join(sdir, n + ".png"), optimize=True)
-        count += 1
-    print(f"wrote {count} platform badges to {pdir}")
+    print(f"wrote {real} console logos and {len(badges)} generated badges to {pdir}")
+    if badges:
+        print("  badges:", ", ".join(badges))
 
 
 if __name__ == "__main__":

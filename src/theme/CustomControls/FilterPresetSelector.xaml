@@ -2,9 +2,10 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <!--
-        System tabs. Each fullscreen filter preset is one tab. Tabs cycle through
-        seven accent colors, and if Images/Presets/<preset name>.png exists the
-        tab shows that logo instead of text (e.g. a preset named "SNES").
+        System tabs. Each fullscreen filter preset is one tab. If
+        Images/Presets/<preset name>.png exists the tab shows that console logo
+        instead of text (e.g. a preset named "SNES"); other tabs cycle through
+        seven accent colors.
     -->
     <Style x:Key="ItemFilterQuickPreset" TargetType="CheckBoxEx">
         <Setter Property="Background" Value="Transparent" />
@@ -20,7 +21,7 @@
                         <Border x:Name="Pill" CornerRadius="24" Height="52" Padding="22,0,22,0"
                                 Background="Transparent" BorderThickness="2" BorderBrush="Transparent">
                             <Grid VerticalAlignment="Center">
-                                <Image x:Name="PresetLogo" Height="36" Stretch="Uniform"
+                                <Image x:Name="PresetLogo" Height="34" MaxWidth="190" Stretch="Uniform"
                                        RenderOptions.BitmapScalingMode="Fant"
                                        Source="{ThemeFileBinding Name, PathFormat='Images/Presets/{0}.png'}" />
                                 <Grid x:Name="PresetText">
@@ -54,6 +55,14 @@
                             <Setter TargetName="TextContent" Property="Foreground" Value="#FF07081A" />
                             <Setter TargetName="TextContent" Property="FontFamily" Value="{DynamicResource FontTitilliumWebBold}" />
                         </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsChecked" Value="True" />
+                                <Condition SourceName="PresetLogo" Property="Visibility" Value="Visible" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="Pill" Property="Background" Value="#33FFFFFF" />
+                            <Setter TargetName="Underline" Property="Visibility" Value="Visible" />
+                        </MultiTrigger>
                         <Trigger Property="IsFocused" Value="True">
                             <Setter TargetName="Pill" Property="BorderBrush" Value="{Binding Tag, RelativeSource={RelativeSource TemplatedParent}}" />
                             <Setter TargetName="Underline" Property="Visibility" Value="Visible" />

@@ -37,14 +37,12 @@
                                 </TextBlock.Background>
                             </TextBlock>
                         </Grid>
-                        <ContentControl Style="{DynamicResource PC_PlatformLogo}"
-                                        Visibility="{DynamicResource PC_TilePlatformBadgeVisibility}"
-                                        Height="30" Margin="8"
-                                        HorizontalAlignment="Left" VerticalAlignment="Top">
-                            <ContentControl.Effect>
-                                <DropShadowEffect ShadowDepth="0" BlurRadius="8" Color="Black" Opacity="0.8" />
-                            </ContentControl.Effect>
-                        </ContentControl>
+                        <Border Visibility="{DynamicResource PC_TilePlatformBadgeVisibility}"
+                                Background="#C007081A" CornerRadius="8" Padding="8,5,8,5" Margin="8"
+                                HorizontalAlignment="Left" VerticalAlignment="Top" MaxWidth="170">
+                            <ContentControl Style="{DynamicResource PC_PlatformLogo}" Height="24"
+                                            HorizontalAlignment="Left" />
+                        </Border>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <MultiDataTrigger>
